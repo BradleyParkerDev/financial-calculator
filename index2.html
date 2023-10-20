@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Calculator</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="icon" type="image/x-icon" href="calculator.png">
+</head>
+<body>
+    <div id="container">
+        <div id ="financial-calculator-title">
+            Financial<br>Calculator
+        </div>
+        <div id="calculator" >
+            <!--screen Row 1 and 2-->
+            <div id="screenview">
+                <input id="inputText" type="text" autocomplete="off">
+                <br>
+                <div id="totalOutput"></div>
+            </div>
+            <!--Row 3-->
+            <div id="button-n" class = "fin-button">N</div>
+            <div id="button-iy" class = "fin-button">I/Y</div>
+            <div id="button-pv" class = "fin-button">PV</div>
+            <div id="button-pmt" class = "fin-button">PMT</div>
+            <div id="button-fv" class = "fin-button">FV</div>
+            <div id="button-cpt" class = "fin-button">CPT</div>
+            <!--Row 4-->
+            <div id="button-7" class = "calc-button">7</div>
+            <div id="button-8" class = "calc-button">8</div>
+            <div id="button-9" class = "calc-button">9</div>
+            <div id="button-div" class = "calc-button teal-button">/</div>
+            <div id="button-left-p" class = "calc-button teal-button">(</div>
+            <div id="button-right-p" class = "calc-button teal-button">)</div>
+            <!--Row 5-->
+            <div id="button-4" class = "calc-button">4</div>
+            <div id="button-5" class = "calc-button">5</div>
+            <div id="button-6" class = "calc-button">6</div>
+            <div id="button-mul" class = "calc-button teal-button">*</div>
+            <div id="button-delete" class = "screen-button">Delete</div>
+            <!--Row 6-->
+            <div id="button-1" class = "calc-button">1</div>
+            <div id="button-2" class = "calc-button">2</div>
+            <div id="button-3" class = "calc-button">3</div>
+            <div id="button-min" class = "calc-button teal-button">-</div>
+            <div id="button-clear" class = "screen-button">Clear</div>
+            <!--Row 7-->
+            <div id="button-neg" class = "neg-button teal-button">+/-</div>
+            <div id="button-0" class = "calc-button">0</div>
+            <div id="button-dec" class = "calc-button teal-button">.</div>
+            <div id="button-pls" class = "calc-button teal-button">+</div>
+            <div id="button-eql" class = "screen-button teal-button">=</div>
+        </div>
+        <br>
+        <div id="financialFact">
+            <span>
+                <img src="close.png" alt="close" id ="closeButton" >
+                <span id="finTitle">Financial Fact</span>
+            </span>
+            <p id="fact"></p>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
