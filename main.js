@@ -323,18 +323,18 @@ cptButton.addEventListener('click', function(){
 //Financial Facts
 //////////////////////////////////////////////////////////////
 //Facts Source - https://investinganswers.com/articles/99-surprising-financial-facts-most-investors-dont-know
-let finFact = document.querySelector("#financialFact");
-let fact = document.querySelector("#fact");
-let closeButton = document.querySelector("#closeButton")
-closeButton.addEventListener('click',function(){
-    finFact.remove();
+let financialFact = document.querySelector("#financial-fact");
+let financialFactText = document.querySelector("#financial-fact-text");
+let financialFactCloseButton = document.querySelector("#financial-fact-close-button")
+financialFactCloseButton.addEventListener('click',function(){
+    financialFact.remove();
 })
 function readFinFacts(){
     fetch('financialFacts.json')           
     .then(response => response.json())
     .then(data => {
         let randomFact = Math.floor((Math.random() * data.length) + 0);
-        fact.innerText = data[randomFact].Fact;
+        financialFactText.innerText = data[randomFact].Fact;
     });
 }
 readFinFacts();
