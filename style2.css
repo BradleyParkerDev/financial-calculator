@@ -38,7 +38,7 @@ div{
 @font-face {
     font-family: myFirstFont;
     src: url(Backbones-YzAoL.ttf);
-  }
+}
 @-moz-document url-prefix() {
     #financial-calculator-title{
        padding:20px;
