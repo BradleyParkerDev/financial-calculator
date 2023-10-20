@@ -135,7 +135,7 @@ body {
     padding-right: 1px;
     text-align: right;
     width: 99%;
-    border: 1px dashed black;
+    /* border: 1px dashed black; */
     border-radius: 5px;   
 }
 
@@ -148,7 +148,7 @@ body {
     border: none;
     padding: 5px;
 
-    border: 1px dashed black;
+    /* border: 1px dashed black; */
     border-radius: 5px;   
 
 }
@@ -157,7 +157,7 @@ body {
 -----------------------------Buttons---------------------------
 */
 
-.calc-button{
+.number-button{
     text-align: center;
     background-color: black;
 }

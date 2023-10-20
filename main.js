@@ -38,7 +38,7 @@ const presentValue = (futureValue, interestRate, numberOfPeriods) => {
 }
   
 
-const payment = (presentValue, interestRate, numberOfPeriods, futureValue) => {
+const payment = (presentValue,futureValue, interestRate, numberOfPeriods) => {
     if (interestRate === 0) {
       return (futureValue - presentValue) / numberOfPeriods;
     } else {
@@ -49,7 +49,7 @@ const payment = (presentValue, interestRate, numberOfPeriods, futureValue) => {
   
   
 
-const numberOfPeriods = (presentValue, interestRate, payment, futureValue) => {
+const numberOfPeriods = (presentValue, futureValue, interestRate, payment) => {
     if (interestRate === 0) {
       return (futureValue - presentValue) / payment;
     } else {
@@ -57,29 +57,6 @@ const numberOfPeriods = (presentValue, interestRate, payment, futureValue) => {
     }
 }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -98,18 +75,14 @@ let result = 0;
 //////////////////////////////////////////////////////////////
 //Buttons and Screens
 //////////////////////////////////////////////////////////////
-let caluculator = document.querySelector('#calculator');
 
 //Screens
 let screenview = document.querySelector('#screenview');
 let inputText = document.querySelector('#inputText');
 let totalOutput = document.querySelector('#totalOutput');
 
-//calc-buttons
-let calcButton = document.querySelectorAll("#calculator .calc-button")
-
-//fin-buttons
-let finButton = document.querySelectorAll("#calculator .fin-button")
+//number-buttons
+let numberButton = document.querySelectorAll("#calculator .number-button")
 
 //Financial Buttons
 let nButton = document.querySelector('#button-n');
@@ -132,29 +105,18 @@ let minButton = document.querySelector('#button-min');
 let plsButton = document.querySelector('#button-pls');
 let eqlButton = document.querySelector('#button-eql');
 
-//Number Buttons
-let button0 = document.querySelector('#button-0');
-let button1 = document.querySelector('#button-1');
-let button2 = document.querySelector('#button-2');
-let button3 = document.querySelector('#button-3');
-let button4 = document.querySelector('#button-4');
-let button5 = document.querySelector('#button-5');
-let button6 = document.querySelector('#button-6');
-let button7 = document.querySelector('#button-7');
-let button8 = document.querySelector('#button-8');
-let button9 = document.querySelector('#button-9');
-
 
 //////////////////////////////////////////////////////////////
 //Event Handlers
 //////////////////////////////////////////////////////////////
-for(let i = 0; i < calcButton.length; i++){
-    calcButton[i].addEventListener('click', function(){
+
+// Number button values added to screen
+for(let i = 0; i < numberButton.length; i++){
+    numberButton[i].addEventListener('click', function(){
         let cursorPosition = inputText.selectionStart;
-        inputText.value = inputText.value.substring(0,cursorPosition) + calcButton[i].innerText + inputText.value.substring(cursorPosition);
+        inputText.value = inputText.value.substring(0,cursorPosition) + numberButton[i].innerText + inputText.value.substring(cursorPosition);
         
         result = eval(inputText.value);
-        //console.log(result.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
         totalOutput.innerText = eval(inputText.value);
     });
 }
@@ -261,7 +223,7 @@ fvButton.addEventListener('click',function(){
 cptButton.addEventListener('click', function(){
     console.log("CPT Button Clicked!")
     if(n === undefined){
-        n = finance.nper(r,pmt,pv,fv,false);
+        n = numberOfPeriods(pv,fv,r,pmt);
         inputText.value = n;
         totalOutput.innerText = "";
         nButton.style.background = "#98fb98";
@@ -273,7 +235,7 @@ cptButton.addEventListener('click', function(){
 
     }
     else if(r === undefined){
-        r = finance.rate(n,pmt,pv,fv,false)
+        r = rate(pv,fv,n,pmt)
         inputText.value = r;
         totalOutput.innerText = "";
         iyButton.style.background = "#98fb98";
@@ -284,7 +246,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pv === undefined){
-        pv = finance.pv(r,n,pmt,fv,false)
+        pv = presentValue(r,n,pmt,fv,false)
         inputText.value = pv;
         totalOutput.innerText = "";
         pvButton.style.background = "#98fb98";
@@ -295,7 +257,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pmt === undefined){
-        pmt = finance.pmt(r,n,pv,fv,false);
+        pmt = payment(pv,fv,r,n);
         inputText.value = pmt;
         totalOutput.innerText = "";
         pmtButton.style.background = "#98fb98";
@@ -306,7 +268,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(fv === undefined){
-        fv = finance.fv(r,n,pmt, pv,false);
+        fv = futureValue(r,n,pmt, pv,false);
         inputText.value = fv;
         totalOutput.innerText = "";
         fvButton.style.background = "#98fb98";
@@ -323,6 +285,7 @@ cptButton.addEventListener('click', function(){
 //Financial Facts
 //////////////////////////////////////////////////////////////
 //Facts Source - https://investinganswers.com/articles/99-surprising-financial-facts-most-investors-dont-know
+
 let financialFact = document.querySelector("#financial-fact");
 let financialFactText = document.querySelector("#financial-fact-text");
 let financialFactCloseButton = document.querySelector("#financial-fact-close-button")
