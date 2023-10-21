@@ -28,8 +28,12 @@ const rate = (presentValue, futureValue, numberOfPeriods, payment) => {
   
 
 
-const futureValue = (presentValue, interestRate, numberOfPeriods) => {
-    return presentValue * Math.pow(1 + interestRate, numberOfPeriods);
+const futureValue = (presentValue, interestRate, numberOfPeriods, payment) => {
+    let futureValue = presentValue;
+    for (let i = 0; i < numberOfPeriods; i++) {
+        futureValue = (futureValue + payment) * (1 + interestRate);
+    }
+    return futureValue;
 }
   
 
@@ -268,7 +272,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(fv === undefined){
-        fv = futureValue(r,n,pmt, pv,false);
+        fv = futureValue(pv, r, n, pmt);
         inputText.value = fv;
         totalOutput.innerText = "";
         fvButton.style.background = "#98fb98";
