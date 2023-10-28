@@ -1,65 +1,47 @@
-const rate = (presentValue, futureValue, numberOfPeriods, payment) => {
-    if (numberOfPeriods === 0) {
-      return 0; // Avoid division by zero.
+function futureValue(pv, r, n, pmt, end = true) {
+    // If there are no payments, calculate the future value based on the compounded present value.
+    if (pmt === 0) {
+        // Future Value (FV) = Present Value (PV) * (1 + Interest Rate (r))^Number of Periods (n)
+        return -pv * Math.pow(1 + r, n);
     }
-  
-    // Use an iterative approach or a financial library like the Newton-Raphson method to calculate the rate.
-    const maxIterations = 10000;
-    let guess = 0.1; // Initial guess for the rate (you can start with any reasonable value).
-  
-    for (let i = 0; i < maxIterations; i++) {
-      const numerator = presentValue - payment * ((1 - Math.pow(1 + guess, -numberOfPeriods)) / guess);
-      const denominator = futureValue;
-  
-      const f = numerator / denominator;
-  
-      if (Math.abs(f) < 0.00001) {
-        return guess; // If the difference is small enough, return the rate as an approximation.
-      }
-  
-      const fPrime = ((payment * numberOfPeriods * Math.pow(1 + guess, -numberOfPeriods - 1)) - payment * (1 - Math.pow(1 + guess, -numberOfPeriods)) / (guess * guess)) / denominator;
-  
-      guess = guess - f / fPrime;
-    }
-  
-    // If the iteration does not converge, you can return NaN or handle it differently.
-    return NaN;
-}
-  
 
-
-const futureValue = (presentValue, interestRate, numberOfPeriods, payment) => {
-    let futureValue = presentValue;
-    for (let i = 0; i < numberOfPeriods; i++) {
-        futureValue = (futureValue + payment) * (1 + interestRate);
-    }
-    return futureValue;
-}
-  
-
-const presentValue = (futureValue, interestRate, numberOfPeriods) => {
-    return futureValue / Math.pow(1 + interestRate, numberOfPeriods);
-}
-  
-
-const payment = (presentValue,futureValue, interestRate, numberOfPeriods) => {
-    if (interestRate === 0) {
-      return (futureValue - presentValue) / numberOfPeriods;
+    if (end) {
+        // Compounding at the end of the period (annuity in arrears)
+        // Calculate the future value (FV) using the formula:
+        // FV = (-PV) * (1 + r)^n - PMT * ((1 + r^n - 1) / r)
+        return (-pv) * Math.pow(1 + r, n) - pmt * ((Math.pow(1 + r, n) - 1) / r);
     } else {
-      const discountFactor = (1 - Math.pow(1 + interestRate, -numberOfPeriods)) / interestRate;
-      return (futureValue - presentValue) / discountFactor;
-    }
-  }
-  
-  
+        // Compounding at the start of the period (annuity due)
+        // Calculate the future value (FV) using the formula:
+        // FV = (-PV) * (1 + r)^n - PMT * ((1 + r^n - 1) / r) * (1 + r)
+        return (-pv) * Math.pow(1 + r, n) - pmt * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
 
-const numberOfPeriods = (presentValue, futureValue, interestRate, payment) => {
-    if (interestRate === 0) {
-      return (futureValue - presentValue) / payment;
-    } else {
-      return Math.log((payment / (payment - interestRate * (futureValue - presentValue)))) / Math.log(1 + interestRate);
     }
 }
+
+const presentValue = (fv, r, n, pmt, end = true) => {
+    // If there are no payments, calculate the present value based on the discounted future value.
+    if (pmt === 0) {
+        // Present Value (PV) = Future Value (FV) / (1 + Interest Rate (r))^Number of Periods (n)
+        return -fv / Math.pow(1 + r, n);
+    }
+
+    if (end) {
+        // Discounting at the end of the period (annuity in arrears)
+        // Calculate the present value (PV) using the formula:
+        // PV = -FV / (1 + r)^n - PMT * ((1 - (1 + r)^-n) / r)
+        return -fv / Math.pow(1 + r, n) - pmt * ((1 - Math.pow(1 + r, -n)) / r);
+    } else {
+        // Discounting at the start of the period (annuity due)
+        // Calculate the present value (PV) using the formula:
+        // PV = -FV / (1 + r)^n - PMT * ((1 - (1 + r)^-n) / r) * (1 + r)
+        return -fv / Math.pow(1 + r, n) - pmt * ((1 - Math.pow(1 + r, -n)) / r) * (1 + r);
+
+
+    }
+}
+
+
   
 
 
@@ -250,7 +232,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pv === undefined){
-        pv = presentValue(r,n,pmt,fv,false)
+        pv = presentValue(fv, r, n, pmt,true)
         inputText.value = pv;
         totalOutput.innerText = "";
         pvButton.style.background = "#98fb98";
@@ -261,7 +243,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pmt === undefined){
-        pmt = payment(pv,fv,r,n);
+        pmt = payment(pv, fv, r, n, end = true);
         inputText.value = pmt;
         totalOutput.innerText = "";
         pmtButton.style.background = "#98fb98";
@@ -272,7 +254,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(fv === undefined){
-        fv = futureValue(pv, r, n, pmt);
+        fv = futureValue(pv, r, n, pmt,true);
         inputText.value = fv;
         totalOutput.innerText = "";
         fvButton.style.background = "#98fb98";
