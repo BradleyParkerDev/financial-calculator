@@ -37,13 +37,28 @@ const presentValue = (fv, r, n, pmt, end = true) => {
         // PV = -FV / (1 + r)^n - PMT * ((1 - (1 + r)^-n) / r) * (1 + r)
         return -fv / Math.pow(1 + r, n) - pmt * ((1 - Math.pow(1 + r, -n)) / r) * (1 + r);
 
-
     }
 }
 
 
   
+function payment(pv, fv, r, n, end = true) {
+    // Calculate the payment (PMT) based on the future value (FV), present value (PV),
+    // interest rate (r), number of periods (n), and whether it's an ordinary annuity (end=true) or annuity due (end=false).
 
+    if (end) {
+        // Payment for an ordinary annuity (compounding at the end of the period).
+        // PMT = (-fv - pv * (1 + r)^n) / [((1 + r)^n - 1) / r]
+        return (-fv - pv * Math.pow(1 + r, n)) / (((Math.pow(1 + r, n) - 1) / r));
+    } else {
+        // Payment for an annuity due (compounding at the start of the period).
+        // PMT = (PV + ((PV + FV) / ((1 + r)^n - 1)) * (-r / (1 + r))
+        let numerator = (pv + ((pv + fv) / (Math.pow(1 + r, n) - 1)));
+        let denominator = (-r / (1 + r));
+        return numerator * denominator;
+
+    }
+}
 
 
 //////////////////////////////////////////////////////////////
@@ -55,6 +70,7 @@ let r = undefined;
 let pv = undefined;
 let pmt = undefined;
 let fv = undefined;
+let end = true;
 let result = 0;
 
 
@@ -232,7 +248,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pv === undefined){
-        pv = presentValue(fv, r, n, pmt,true)
+        pv = presentValue(fv, r, n, pmt, end)
         inputText.value = pv;
         totalOutput.innerText = "";
         pvButton.style.background = "#98fb98";
@@ -243,7 +259,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(pmt === undefined){
-        pmt = payment(pv, fv, r, n, end = true);
+        pmt = payment(pv, fv, r, n, end);
         inputText.value = pmt;
         totalOutput.innerText = "";
         pmtButton.style.background = "#98fb98";
@@ -254,7 +270,7 @@ cptButton.addEventListener('click', function(){
         console.log(`FV: ${fv}`);
     }
     else if(fv === undefined){
-        fv = futureValue(pv, r, n, pmt,true);
+        fv = futureValue(pv, r, n, pmt, end);
         inputText.value = fv;
         totalOutput.innerText = "";
         fvButton.style.background = "#98fb98";
