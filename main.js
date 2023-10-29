@@ -53,13 +53,19 @@ function payment(pv, fv, r, n, end = true) {
     } else {
         // Payment for an annuity due (compounding at the start of the period).
         // PMT = (PV + ((PV + FV) / ((1 + r)^n - 1)) * (-r / (1 + r))
-        let numerator = (pv + ((pv + fv) / (Math.pow(1 + r, n) - 1)));
-        let denominator = (-r / (1 + r));
-        return numerator * denominator;
+        let part1 = (pv + ((pv + fv) / (Math.pow(1 + r, n) - 1)));
+        let part2 = (-r / (1 + r));
+        return part1 * part2;
 
     }
 }
 
+function numberOfPeriods(pv,fv,r,pmt, end = true) {
+
+}
+function rate(pv,fv,n,pmt, end = true){
+
+}
 
 //////////////////////////////////////////////////////////////
 // Variables
@@ -70,7 +76,7 @@ let r = undefined;
 let pv = undefined;
 let pmt = undefined;
 let fv = undefined;
-let end = true;
+let end = false;
 let result = 0;
 
 
@@ -225,7 +231,7 @@ fvButton.addEventListener('click',function(){
 cptButton.addEventListener('click', function(){
     console.log("CPT Button Clicked!")
     if(n === undefined){
-        n = numberOfPeriods(pv,fv,r,pmt);
+        n = numberOfPeriods(pv,fv,r,pmt,end);
         inputText.value = n;
         totalOutput.innerText = "";
         nButton.style.background = "#98fb98";
