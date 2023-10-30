@@ -67,17 +67,16 @@ function numberOfPeriods(pv,fv,r,pmt, end = true) {
         // n = log(FV / PV) / log(1 + r)
         return Math.log((fv) / (-1*pv)) / Math.log(1 + r);
     }
-    // if(end){
-    //     // Regular Annuity        
+    if (end) {
+        // Regular Annuity
+ 
+    } else {
+        // Annuity Due
 
-    // } else{
-    //     // Annuity Due
-
-
-
-    // }
+    }
 
 }
+
 function rate(pv,fv,n,pmt, end = true){
     if(pmt === 0){
         // No payment
@@ -103,7 +102,7 @@ let r = undefined;
 let pv = undefined;
 let pmt = undefined;
 let fv = undefined;
-let end = false;
+let end = true;
 let result = 0;
 
 
