@@ -80,7 +80,8 @@ function numberOfPeriods(pv,fv,r,pmt, end = true) {
 function rate(pv,fv,n,pmt, end = true){
     if(pmt === 0){
         // No payment
-
+        // rate = ((fv/pv) ^ (1/n)) - 1
+        return  Math.pow((fv/(-1* pv)), (1/n)) - 1 
     }
     if(end){
         // Regular Annuity        
