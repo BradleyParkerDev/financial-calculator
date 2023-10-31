@@ -69,7 +69,8 @@ function numberOfPeriods(pv,fv,r,pmt, end = true) {
     }
     if (end) {
         // Regular Annuity
- 
+        // n = Log((Pmt/Rate - FV) / (Pmt/Rate + PV)) / Log(1+Rate) 
+        return Math.log((pmt/r - fv)/((pmt/r) + (pv))) / Math.log(1 + r)
     } else {
         // Annuity Due
 
