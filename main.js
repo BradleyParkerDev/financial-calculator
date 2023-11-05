@@ -69,12 +69,19 @@ function numberOfPeriods(pv,fv,r,pmt, end = true) {
     }
     if (end) {
         // Regular Annuity
-        // n = Log((Pmt/Rate - FV) / (Pmt/Rate + PV)) / Log(1+Rate) 
+        // n = Log((pmt/r - fv) / (pmt/r + pv)) / Log(1+r) 
         return Math.log((pmt/r - fv)/((pmt/r) + (pv))) / Math.log(1 + r)
     } else {
         // Annuity Due
-
+        // n = log[(((-r) * fv) + ((pmt) * (1 + r * 1))) / (((r) * (pv)) + ((pmt) * (1 + r * 1)))] / log(1+r)
+        // Example: NPER = log[ [-(10% ÷ 1) x 4346.86 + -100 x ( 1 + (10% ÷ 1) x 1 )] ÷ [ (10% 1) x -1000 + -100 x ( 1 + (10% ÷ 1) x 1 ) ] ] ÷ log( 1 + (10% ÷ 1) ) = 10
+        let numerator = (((-r) * fv) + ((pmt) * (1 + r * 1)));
+        // console.log(`Numerator: ${numerator}`)
+        let denominator = (((r) * (pv)) + ((pmt) * (1 + r * 1)));
+        // console.log(`Denominator: ${denominator}`)
+        return Math.log(numerator / denominator) / Math.log(1 + r);
     }
+
 
 }
 
@@ -104,7 +111,7 @@ let r = undefined;
 let pv = undefined;
 let pmt = undefined;
 let fv = undefined;
-let end = true;
+let end = false;
 let result = 0;
 
 
