@@ -120,9 +120,8 @@ let result = 0;
 //////////////////////////////////////////////////////////////
 
 // Period Radio Buttons
-let periodRadioButton = document.querySelectorAll('#pt-buttons .period');
-let periodText = document.querySelector('#pt-text');
-
+let periodText = document.querySelector('#ps-text');
+let periodSwitchCheckbox = document.querySelector('#period-switch-checkbox')
 
 //Screens
 let screenview = document.querySelector('#screenview');
@@ -157,20 +156,22 @@ let eqlButton = document.querySelector('#button-eql');
 //////////////////////////////////////////////////////////////
 //Event Handlers
 //////////////////////////////////////////////////////////////
-for(let i = 0; i < periodRadioButton.length; i++){
-    periodRadioButton[i].addEventListener('click', function(){
-        console.log(`Payment Period: ${periodRadioButton[i].value}`)
-        if(periodRadioButton[i].value === 'end'){
-            periodText.innerText = 'End of Period'
-            end = true;
-        }else{
-            periodText.innerText = 'Beginning of Period'
 
-            end = false;
+// Period Switch Checkbox
+periodSwitchCheckbox.addEventListener('click', function() {
+    if (periodSwitchCheckbox.checked === true) {
+        // console.log('Switch checked');
+        periodText.innerText = 'End of Period';
+        console.log(`Payment Period: End`)
 
-        }
-    })
-}
+        end = true;
+    } else {
+        // console.log('Switch unchecked');
+        periodText.innerText = 'Beginning of Period';
+        console.log(`Payment Period: Beginning`)
+        end = false;
+    }
+});
 
 // Number button values added to screen
 for(let i = 0; i < numberButton.length; i++){
