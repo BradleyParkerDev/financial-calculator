@@ -1,2 +1,2 @@
 # financial-calculator
-![money](money.gif)
+![Financial Calculator](Financial_Calculator.gif)
