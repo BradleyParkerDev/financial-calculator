@@ -8,13 +8,13 @@ function futureValue(pv, r, n, pmt, end = true) {
     if (end) {
         // Compounding at the end of the period (annuity in arrears)
         // Calculate the future value (FV) using the formula:
-        // FV = (-PV) * (1 + r)^n - PMT * ((1 + r^n - 1) / r)
+        // FV = (-PV) * (1 + r)^n - PMT * (((1 + r)^n - 1) / r)
         return (-pv) * Math.pow(1 + r, n) - pmt * ((Math.pow(1 + r, n) - 1) / r);
     } else {
         // Compounding at the start of the period (annuity due)
         // Calculate the future value (FV) using the formula:
-        // FV = (-PV) * (1 + r)^n - PMT * ((1 + r^n - 1) / r) * (1 + r)
-        return (-pv) * Math.pow(1 + r, n) - pmt * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+        // FV = (-PV) * (1 + r)^n - PMT * (((1 + r)^n - 1) / r) * (1 + r)
+        return (-pv) * Math.pow(1 + r, n) - (pmt) * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
 
     }
 }
@@ -88,7 +88,7 @@ function numberOfPeriods(pv,fv,r,pmt, end = true) {
 function rate(pv,fv,n,pmt, end = true){
     if(pmt === 0){
         // No payment
-        // rate = ((fv/pv) ^ (1/n)) - 1
+        // r = ((fv/pv) ^ (1/n)) - 1
         return  Math.pow((fv/(-1* pv)), (1/n)) - 1 
     }
     if(end){
@@ -111,13 +111,18 @@ let r = undefined;
 let pv = undefined;
 let pmt = undefined;
 let fv = undefined;
-let end = false;
+let end = true;
 let result = 0;
 
 
 //////////////////////////////////////////////////////////////
 //Buttons and Screens
 //////////////////////////////////////////////////////////////
+
+// Period Radio Buttons
+let periodRadioButton = document.querySelectorAll('#pt-buttons .period');
+let periodText = document.querySelector('#pt-text');
+
 
 //Screens
 let screenview = document.querySelector('#screenview');
@@ -152,6 +157,20 @@ let eqlButton = document.querySelector('#button-eql');
 //////////////////////////////////////////////////////////////
 //Event Handlers
 //////////////////////////////////////////////////////////////
+for(let i = 0; i < periodRadioButton.length; i++){
+    periodRadioButton[i].addEventListener('click', function(){
+        console.log(`Payment Period: ${periodRadioButton[i].value}`)
+        if(periodRadioButton[i].value === 'end'){
+            periodText.innerText = 'End of Period'
+            end = true;
+        }else{
+            periodText.innerText = 'Beginning of Period'
+
+            end = false;
+
+        }
+    })
+}
 
 // Number button values added to screen
 for(let i = 0; i < numberButton.length; i++){
